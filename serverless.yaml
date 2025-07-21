@@ -1,0 +1,57 @@
+service: nestjs-chat-app
+
+useDotenv: true
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  region: eu-central-1
+  lambdaHashingVersion: "20201221"
+  memorySize: 2048
+  timeout: 30
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+        - ssm:GetParameter
+        - iam:GetRole
+        - iam:PassRole
+      Resource: "*"
+
+  environment:
+    STAGE: ${opt:stage, 'dev'}
+    PORT: ${opt:stage, 3000}
+    DB_HOST: ${ssm:/${opt:stage, 'dev'}/DB_HOST}
+    DB_PORT: ${ssm:/${opt:stage, 'dev'}/DB_PORT}
+    DB_USERNAME: ${ssm:/${opt:stage, 'dev'}/DB_USERNAME}
+    DB_PASSWORD: ${ssm:/${opt:stage, 'dev'}/DB_PASSWORD}
+    DB_DATABASE: ${ssm:/${opt:stage, 'dev'}/DB_DATABASE}
+    NODE_ENV: ${opt:stage, 'development'}
+
+functions:
+  # Wrap all the routers
+  # app:
+  #   handler: dist/src/serverless.handler
+  #   timeout: 30
+  #   events:
+  #     - httpApi:
+  #         path: /{proxy+}
+  #         method: any
+  #     - httpApi:
+  #         path: /
+  #         method: any
+
+  processMessage:
+    handler: dist/src/handlers.processMessage
+    timeout: 30
+    memorySize: 512
+    description: "Process and sanitize chat messages"
+    events:
+      - httpApi:
+          path: /chats/messages/process
+          method: post
