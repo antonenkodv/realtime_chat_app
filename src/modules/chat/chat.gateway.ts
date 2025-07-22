@@ -100,11 +100,8 @@ export class ChatGateway
     );
 
     const messagePayload = {
-      id: message.id,
-      content: message.content,
-      userId: message.userId,
+      ...message,
       roomId: roomId,
-      timestamp: message.timestamp,
       processed: true,
     };
 

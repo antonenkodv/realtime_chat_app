@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20.x
+  pre_build:
+    commands:
+      - echo Installing dependencies...
+      - npm install
+  build:
+    commands:
+      - node -v
+      - echo Building Application...
+      - npm run build
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: no
+cache:
+  paths:
+    - node_modules
