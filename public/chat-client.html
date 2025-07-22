@@ -230,7 +230,7 @@
         }
 
         try {
-            socket = io('ws://localhost:3000', {
+            socket = io('wss://web-production-23efe.up.railway.app/', {
                 query: { roomId: roomId }
             });
 
@@ -363,7 +363,7 @@
         const limit = document.getElementById('limit').value;
         const offset = document.getElementById('offset').value;
 
-        const url = `http://localhost:3000/chats/messages?limit=${limit}&offset=${offset}`;
+        const url = `https://web-production-23efe.up.railway.app/chats/messages?limit=${limit}&offset=${offset}`;
 
         try {
             const response = await fetch(url);
