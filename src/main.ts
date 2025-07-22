@@ -19,7 +19,7 @@ async function bootstrap() {
   );
 
   await app.listen(3000);
-  console.log('🚀 NestJS Application is running on: http://localhost:3000');
+  console.log('🚀NestJS Application is running on: http://localhost:3000');
   console.log(
     '📱 Chat Client available at: http://localhost:3000/chat-client.html',
   );
